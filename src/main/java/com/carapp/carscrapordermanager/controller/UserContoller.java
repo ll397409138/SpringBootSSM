@@ -78,3 +78,4 @@ public class UserContoller {
         return new ResultBean(userService.selectByPrimaryKey(u));
     }
 }
+
