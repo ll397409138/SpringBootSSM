@@ -45,7 +45,7 @@ public class UserContoller {
   @ApiOperation(value = "新增用户接口",notes = "新增用户接口")
   public ResultBean<Boolean> addUser(User user){
 
-      System.out.print(user.getBirthDay());
+    
 
       return new ResultBean(userService.insert(user)==1);
   }
