@@ -9,5 +9,5 @@ public interface UserService extends BaseService<User> {
 
     int insert(UserVO user);
 
-    int update(UserVO user);
+    int updateByPrimaryKey(UserVO user);
 }
