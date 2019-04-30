@@ -5,6 +5,7 @@ import com.carapp.carscrapordermanager.common.PageResult;
 import com.carapp.carscrapordermanager.common.ResultBean;
 import com.carapp.carscrapordermanager.pojo.User;
 import com.carapp.carscrapordermanager.service.UserService;
+import com.carapp.carscrapordermanager.vo.UserVO;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.annotations.Api;
@@ -43,7 +44,7 @@ public class UserContoller {
 
   @RequestMapping(method = RequestMethod.POST)
   @ApiOperation(value = "新增用户接口",notes = "新增用户接口")
-  public ResultBean<Boolean> addUser(User user){
+  public ResultBean<Boolean> addUser(UserVO user){
 
     
 
@@ -62,7 +63,7 @@ public class UserContoller {
 
     @PutMapping(value="/{id}")
     @ApiOperation(value = "根据Id修改用户接口",notes = "根据Id修改用户接口" ,produces="application/json")
-    public ResultBean<Boolean> updateUser(@PathVariable("id") Long id,@RequestBody  User user){
+    public ResultBean<Boolean> updateUser(@PathVariable("id") Long id,@RequestBody  UserVO user){
 
         return new ResultBean(userService.updateByPrimaryKey(user)==1);
     }
