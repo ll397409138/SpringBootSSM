@@ -2,8 +2,12 @@ package com.carapp.carscrapordermanager.service.imp;
 
 import com.carapp.carscrapordermanager.config.MyMapper;
 import com.carapp.carscrapordermanager.service.BaseService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -111,6 +115,13 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     @Override
     public List<T> selectByRowBounds(T t, RowBounds rowBounds) {
         return mapper.selectByRowBounds(t, rowBounds);
+    }
+    
+    public PageInfo<T> queryPageListByWhere(T t,RowBounds rowBounds)throws Exception {
+    	
+    	PageHelper.startPage(rowBounds.getOffset(), rowBounds.getLimit());
+    	List<T> list = this.selectByRowBounds(t, rowBounds);
+    	return new PageInfo<T>(list);
     }
 
     @Override

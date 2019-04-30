@@ -1,6 +1,9 @@
 package com.carapp.carscrapordermanager.service;
 
 import org.apache.ibatis.session.RowBounds;
+
+import com.github.pagehelper.PageInfo;
+
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -106,6 +109,10 @@ public interface BaseService<T> {
      * @return
      */
     public List<T> selectByRowBounds(T t, RowBounds rowBounds);
+    
+    
+    
+    public PageInfo<T> queryPageListByWhere(T t, RowBounds rowBounds)throws Exception ;
 
     /**
      * 根据模板和行号查询
