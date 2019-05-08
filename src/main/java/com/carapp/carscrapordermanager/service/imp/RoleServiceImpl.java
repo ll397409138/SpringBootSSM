@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.carapp.carscrapordermanager.config.RoleMapper;
+import com.carapp.carscrapordermanager.mapper.RoleMapper;
 import com.carapp.carscrapordermanager.pojo.Role;
 import com.carapp.carscrapordermanager.service.RoleService;
 

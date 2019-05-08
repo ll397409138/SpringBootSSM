@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +26,10 @@ public class UserContoller {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     
-    
-    
+    @ApiOperation(value = "用户列表接口",notes = "用户列表接口")
     public ResultBean<PageResult> getAdvertisementList(
     @ApiParam(name = "page", value = "分页参数页码",required = true)
 	@RequestParam(value="page",required = true,defaultValue="1")Integer page,
