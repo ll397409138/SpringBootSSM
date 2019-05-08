@@ -6,3 +6,4 @@ springBoot+mybaties+通用mapper
     mysql：6.0.11
 
     maven：3.5.3
+    启动访问swagger地址：http://localhost:8080/swagger-ui.html#/
