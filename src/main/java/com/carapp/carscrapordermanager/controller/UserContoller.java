@@ -25,7 +25,6 @@ public class UserContoller {
 
     @Autowired
     private UserService userService;
-    
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     
