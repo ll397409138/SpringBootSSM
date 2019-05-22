@@ -12,6 +12,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 public class DateUtil {
 	
@@ -823,6 +831,55 @@ public class DateUtil {
 		        c.set(Calendar.MILLISECOND, 999);
 		        return c.getTime();
 		}
+	
+	// 01. java.util.Date --> java.time.LocalDateTime
+	public LocalDateTime UDateToLocalDateTime(Date date) {
+	   
+	    Instant instant = date.toInstant();
+	    ZoneId zone = ZoneId.systemDefault();
+	    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+	    return localDateTime;
+	}
+
+	// 02. java.util.Date --> java.time.LocalDate
+	public LocalDate UDateToLocalDate(Date date) {
+	    
+	    Instant instant = date.toInstant();
+	    ZoneId zone = ZoneId.systemDefault();
+	    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+	    LocalDate localDate = localDateTime.toLocalDate();
+	    return localDate;
+	}
+
+	// 03. java.util.Date --> java.time.LocalTime
+	public LocalTime UDateToLocalTime(Date date) {
+	    Instant instant = date.toInstant();
+	    ZoneId zone = ZoneId.systemDefault();
+	    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+	    LocalTime localTime = localDateTime.toLocalTime();
+	    return localTime;
+	}
+
+
+	// 04. java.time.LocalDateTime --> java.util.Date
+	public Date LocalDateTimeToUdate(LocalDateTime localDateTime) {
+	 
+	    ZoneId zone = ZoneId.systemDefault();
+	    Instant instant = localDateTime.atZone(zone).toInstant();
+	    java.util.Date date = Date.from(instant);
+	    return date;
+	}
+
+
+	// 05. java.time.LocalDate --> java.util.Date
+	public Date LocalDateToUdate(LocalDate localDate) {
+	  
+	    ZoneId zone = ZoneId.systemDefault();
+	    Instant instant = localDate.atStartOfDay().atZone(zone).toInstant();
+	    java.util.Date date = Date.from(instant);
+	    return date;
+	}
+
 	   
 	    
 	    public static void main(String [] args){
