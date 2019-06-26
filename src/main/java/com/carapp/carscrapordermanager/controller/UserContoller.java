@@ -15,8 +15,13 @@ import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value="/user")
@@ -29,6 +34,7 @@ public class UserContoller {
     private StringRedisTemplate stringRedisTemplate;
     
     @ApiOperation(value = "用户列表接口",notes = "用户列表接口")
+    @RequestMapping(method = RequestMethod.GET)
     public ResultBean<PageResult> getAdvertisementList(
     @ApiParam(name = "page", value = "分页参数页码",required = true)
 	@RequestParam(value="page",required = true,defaultValue="1")Integer page,
@@ -44,8 +50,13 @@ public class UserContoller {
     
 
   @RequestMapping(method = RequestMethod.POST)
+  //@ResponseStatus(code=HttpStatus.INTERNAL_SERVER_ERROR,reason = "server error")
   @ApiOperation(value = "新增用户接口",notes = "新增用户接口")
-  public ResultBean<Boolean> addUser(UserVO user){
+  public ResultBean<Boolean> addUser(@Validated(User.Add.class) UserVO user/**, BindingResult bindingResult**/){
+//      if(bindingResult.hasErrors()){
+//          System.out.println(""+bindingResult.getFieldError().getDefaultMessage());
+//          return new ResultBean(new RuntimeException());
+//      }
 
       System.out.print(user.getBirthDay());
 
@@ -64,8 +75,9 @@ public class UserContoller {
 
     @PutMapping(value="/{id}")
     @ApiOperation(value = "根据Id修改用户接口",notes = "根据Id修改用户接口" ,produces="application/json")
-    public ResultBean<Boolean> updateUser(@PathVariable("id") Long id,@RequestBody  UserVO user){
+    public ResultBean<Boolean> updateUser(@PathVariable("id") Long id,@Validated(User.Update.class) @RequestBody UserVO user){
 
+        System.out.println(user.toString());
         return new ResultBean(userService.updateByPrimaryKey(user)==1);
     }
 

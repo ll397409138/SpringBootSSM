@@ -3,10 +3,12 @@ package com.carapp.carscrapordermanager.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Id;
 
 @ApiModel(value = "Role得实体，----》",reference = "我是参考")
+@Validated
 public class Role {
 	
 	@Id

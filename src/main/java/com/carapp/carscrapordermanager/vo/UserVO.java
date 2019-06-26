@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.carapp.carscrapordermanager.pojo.Role;
 import com.carapp.carscrapordermanager.pojo.User;
+import org.springframework.validation.annotation.Validated;
 
 public class UserVO extends User {
 
+
+
+
     private Integer roleId;
+
+
 
     public Integer getRoleId() {
         return roleId;
@@ -17,6 +24,10 @@ public class UserVO extends User {
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
+
+
+	public UserVO() {
+	}
 
 	public UserVO(Integer roleId) {
 		super();

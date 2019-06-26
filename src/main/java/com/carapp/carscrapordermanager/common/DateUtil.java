@@ -831,8 +831,15 @@ public class DateUtil {
 		        c.set(Calendar.MILLISECOND, 999);
 		        return c.getTime();
 		}
-	
+
+
 	// 01. java.util.Date --> java.time.LocalDateTime
+
+	/**
+	 * java.util.Date 转换 java.time.LocalDateTime
+	 * @param date
+	 * @return
+	 */
 	public LocalDateTime UDateToLocalDateTime(Date date) {
 	   
 	    Instant instant = date.toInstant();
@@ -842,6 +849,12 @@ public class DateUtil {
 	}
 
 	// 02. java.util.Date --> java.time.LocalDate
+
+	/**
+	 * java.util.Date 转换 java.time.LocalDate
+	 * @param date
+	 * @return
+	 */
 	public LocalDate UDateToLocalDate(Date date) {
 	    
 	    Instant instant = date.toInstant();
@@ -852,6 +865,12 @@ public class DateUtil {
 	}
 
 	// 03. java.util.Date --> java.time.LocalTime
+
+	/**
+	 * java.util.Date 转换 java.time.LocalTime
+	 * @param date
+	 * @return
+	 */
 	public LocalTime UDateToLocalTime(Date date) {
 	    Instant instant = date.toInstant();
 	    ZoneId zone = ZoneId.systemDefault();

@@ -1,10 +1,16 @@
 package com.carapp.carscrapordermanager.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.text.DateFormat;
@@ -15,6 +21,14 @@ import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+
+    @Autowired
+    private Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder;
+
+    @Autowired
+    private MyDateFormat  myDateFormat;
+
 
     private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
@@ -30,33 +44,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-
-
         registry.addConverter(new Converter<String,Date>(){
             @Override
             public Date convert(String source) {
                 String value = source.trim();
+
                 if ("".equals(value)) {
                     return null;
                 }
-                if(source.matches("^\\d{4}-\\d{1,2}$")){
-                    return parseDate(source, formarts.get(0));
-                }else if(source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")){
-                    return parseDate(source, formarts.get(1));
-                }else if(source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")){
-                    return parseDate(source, formarts.get(2));
-                }else if(source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")){
-                    return parseDate(source, formarts.get(3));
-                }else {
-                    try{
-                        //其他按时间戳处理
-                        Long timeStamp = Long.parseLong(source);
-                        return new Date(timeStamp);
-                    }catch (Exception e) {
-                        throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
-                    }
-
-                }
+                return myDateFormat.parse(source,null);
             }
         });
     }
@@ -71,4 +67,29 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
         return date;
     }
+
+
+    @Bean
+    public MappingJackson2HttpMessageConverter MappingJsonpHttpMessageConverter() {
+        ObjectMapper mapper = jackson2ObjectMapperBuilder.build();
+        // ObjectMapper为了保障线程安全性，里面的配置类都是一个不可变的对象
+        // 所以这里的setDateFormat的内部原理其实是创建了一个新的配置类
+        mapper.setDateFormat(myDateFormat);
+        MappingJackson2HttpMessageConverter mappingJsonpHttpMessageConverter = new MappingJackson2HttpMessageConverter(
+                mapper);
+        return mappingJsonpHttpMessageConverter;
+    }
+
+
+
+    @Bean
+    public MyDateFormat getMyDateFormat(){
+        ObjectMapper mapper = jackson2ObjectMapperBuilder.build();
+
+        DateFormat dateFormat = mapper.getDateFormat();
+        return new MyDateFormat(dateFormat);
+
+    }
+
+
 }

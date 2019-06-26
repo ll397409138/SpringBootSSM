@@ -1,11 +1,15 @@
 package com.carapp.carscrapordermanager.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @ApiModel(value = "User得实体，----》",reference = "我是参考")
@@ -15,14 +19,17 @@ public class User {
     private Integer id;
 
 
-    @ApiParam(value = "登录名",required = true)
+    @ApiParam(value = "登录名")
+    @NotNull(message = "登录名不能为空",groups = {User.Add.class,User.Update.class})
+    @Size(min=5, max=18,message = "登录名最小长度5，最大长度18")
     private String loginName;
 
-    @ApiParam(value = "真实姓名",required = true)
+    @ApiParam(value = "真实姓名"/*,required = true*/)
     private String realName;
 
     @ApiParam(value = "密码")
     @JsonIgnore
+    @NotNull(message = "密码不能为空",groups = {User.Add.class})
     private String password;
 
     @ApiParam(value = "用户密码加密盐,不用输入系统随机生成",hidden = true)
@@ -34,6 +41,8 @@ public class User {
     private String status="1";
 
     @ApiModelProperty(value = "出生日期")
+   // @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  //
+    //@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date birthDay;
 
 
@@ -92,4 +101,8 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
+    public interface Add{}
+    public interface Update{}
 }
